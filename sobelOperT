@@ -1,0 +1,46 @@
+int CPlateLocate::sobelOperT(const Mat &in, Mat &out, int blurSize, int morphW,
+                             int morphH) {
+  Mat mat_blur;
+  mat_blur = in.clone();
+  GaussianBlur(in, mat_blur, Size(blurSize, blurSize), 0, 0, BORDER_DEFAULT);
+
+  Mat mat_gray;
+  if (mat_blur.channels() == 3)
+    cvtColor(mat_blur, mat_gray, CV_BGR2GRAY);
+  else
+    mat_gray = mat_blur;
+
+  utils::imwrite("resources/image/tmp/grayblure.jpg", mat_gray);
+
+  // equalizeHist(mat_gray, mat_gray);
+
+  int scale = SOBEL_SCALE;
+  int delta = SOBEL_DELTA;
+  int ddepth = SOBEL_DDEPTH;
+
+  Mat grad_x, grad_y;
+  Mat abs_grad_x, abs_grad_y;
+
+  Sobel(mat_gray, grad_x, ddepth, 1, 0, 3, scale, delta, BORDER_DEFAULT);
+  convertScaleAbs(grad_x, abs_grad_x);
+
+  Mat grad;
+  addWeighted(abs_grad_x, 1, 0, 0, 0, grad);
+
+  utils::imwrite("resources/image/tmp/graygrad.jpg", grad);
+
+  Mat mat_threshold;
+  double otsu_thresh_val =
+      threshold(grad, mat_threshold, 0, 255, CV_THRESH_OTSU + CV_THRESH_BINARY);
+
+  utils::imwrite("resources/image/tmp/grayBINARY.jpg", mat_threshold);
+
+  Mat element = getStructuringElement(MORPH_RECT, Size(morphW, morphH));
+  morphologyEx(mat_threshold, mat_threshold, MORPH_CLOSE, element);
+
+  utils::imwrite("resources/image/tmp/phologyEx.jpg", mat_threshold);
+
+  out = mat_threshold;
+
+  return 0;
+}
