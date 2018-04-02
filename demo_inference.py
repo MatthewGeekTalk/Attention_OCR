@@ -27,7 +27,7 @@ FLAGS = flags.FLAGS
 common_flags.define()
 
 # e.g. ./datasets/data/fsns/temp/fsns_train_%02d.png
-flags.DEFINE_string('image_path_pattern', '',
+flags.DEFINE_string('image_path_pattern', './testdata/fsns_train_%02d.png',
                     'A file pattern with a placeholder for the image index.')
 
 
@@ -48,8 +48,8 @@ def load_images(file_pattern, batch_size, dataset_name):
   for i in range(batch_size):
     path = file_pattern % i
     print("Reading %s" % path)
-    # pil_image = Image.open(tf.gfile.GFile(path))
-    pil_image = Image.open("fsns_train_00.png")
+    pil_image = Image.open(tf.gfile.GFile(path, 'rb'))
+    #pil_image = Image.open("fsns_train_00.png")
     images_actual_data[i, ...] = np.asarray(pil_image)
   return images_actual_data
 

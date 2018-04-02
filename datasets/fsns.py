@@ -22,7 +22,7 @@ import tensorflow as tf
 from tensorflow.contrib import slim
 import logging
 
-DEFAULT_DATASET_DIR = os.path.join(os.path.dirname(__file__), 'testdata\\fsns')
+DEFAULT_DATASET_DIR = os.path.join(os.path.dirname(__file__), 'testdata/fsns')
 
 # The dataset configuration, should be used only as a default value.
 DEFAULT_CONFIG = {
@@ -45,7 +45,7 @@ DEFAULT_CONFIG = {
     'image_shape': (150, 600, 3),
     'num_of_views': 4,
     'max_sequence_length': 37,
-    'null_code': 134,
+    'null_code': 133,
     'items_to_descriptions': {
         'image': 'A [150 x 600 x 3] color image.',
         'label': 'Characters codes.',

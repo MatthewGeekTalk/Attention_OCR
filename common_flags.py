@@ -59,7 +59,7 @@ def define():
   flags.DEFINE_string('dataset_dir', None,
                       'Dataset root folder.')
 
-  flags.DEFINE_string('checkpoint', '',
+  flags.DEFINE_string('checkpoint', 'model.ckpt-399731',
                       'Path for checkpoint to restore weights from.')
 
   flags.DEFINE_string('master',
